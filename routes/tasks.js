@@ -5,15 +5,23 @@ const router = express.Router();
 // Create a task
 router.post("/", async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, status, dueDate } = req.body;
 
     // Validate request body
     if (!title || !description) {
-      return res.status(400).json({ message: "Title and description are required" });
+      return res
+        .status(400)
+        .json({ message: "Title and description are required" });
     }
 
-    const task = new Task(req.body);
-    const savedTask = await task.save();
+    const newTask = new Task({
+      title,
+      description,
+      status,
+      dueDate: new Date(dueDate),
+    });
+
+    const savedTask = await newTask.save();
     res.status(201).json(savedTask);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -46,14 +54,18 @@ router.get("/:id", async (req, res) => {
 // Update task by ID
 router.put("/:id", async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, status, dueDate } = req.body;
 
     // Validate request body
     if (!title || !description) {
-      return res.status(400).json({ message: "Title and description are required" });
+      return res
+        .status(400)
+        .json({ message: "Title and description are required" });
     }
 
-    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
     }

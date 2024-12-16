@@ -1,0 +1,29 @@
+REST CLIENT API Test
+
+###
+GET http://localhost:3000/api/tasks/
+
+###
+POST http://localhost:3000/api/tasks/
+Content-Type: application/json
+
+{
+   "title": "Test1",
+   "description": "Test1",
+   "status": "in-progress",
+   "dueDate": "2024-12-25"
+}
+
+###
+PUT http://localhost:3000/api/tasks/675fb59f7234bab52c0eb186/
+Content-Type: application/json
+
+{
+   "title": "Test",
+   "description": "Test",
+   "status": "pending",
+   "dueDate": "2024-12-22"
+}
+
+###
+DELETE http://localhost:3000/api/tasks/675fb6b47234bab52c0eb18a/
